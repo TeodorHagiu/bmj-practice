@@ -1,16 +1,11 @@
-import { Octokit } from "@octokit/rest";
 import { Overview } from "../components/Overview";
+import { getUser } from "../services/octokit";
 
-const GithubOverview = ({ user }) => {
-  return <Overview user={user} />;
-};
+const GithubOverview = ({ user }) => <Overview user={user} />;
 
 export async function getServerSideProps({ params: { githubUsername } }) {
-  const octokit = new Octokit();
+  const user = await getUser(githubUsername);
 
-  const user = await octokit.users
-    .getByUsername({ username: githubUsername })
-    .then(({ data }) => data);
   return { props: { user } };
 }
 
