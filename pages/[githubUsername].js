@@ -1,22 +1,17 @@
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
 import { Octokit } from "@octokit/rest";
+import { Overview } from "../components/Overview";
 
-const GithubOverview = () => {
-  const [user, setUser] = useState({});
-  const router = useRouter();
-
-  const { githubUsername: username } = router.query;
-  useEffect(() => {
-    if (username) {
-      const octokit = new Octokit();
-      octokit.users
-        .getByUsername({ username })
-        .then(({ data }) => setUser(data));
-    }
-  }, [username]);
-
-  return <pre>{JSON.stringify(user, null, 2)}</pre>;
+const GithubOverview = ({ user }) => {
+  return <Overview user={user} />;
 };
+
+export async function getServerSideProps({ params: { githubUsername } }) {
+  const octokit = new Octokit();
+
+  const user = await octokit.users
+    .getByUsername({ username: githubUsername })
+    .then(({ data }) => data);
+  return { props: { user } };
+}
 
 export default GithubOverview;
