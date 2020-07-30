@@ -20,8 +20,6 @@ const githubGet = (path) =>
           // Any 2xx status code signals a successful response but
           // here we're only checking for 200.
           if (statusCode !== 200) {
-            console.log("res", res);
-
             error = new Error(
               "Request Failed.\n" + `Status Code: ${statusCode}`
             );
