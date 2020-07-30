@@ -1,5 +1,5 @@
 import https from "https";
-import { githubApiBaseUrl, githubApiHost } from "../constants";
+import { githubApiBaseUrl, githubApiHost, githubAuthToken } from "../constants";
 
 const githubGet = (path) =>
   new Promise((resolve, reject) => {
@@ -9,7 +9,8 @@ const githubGet = (path) =>
           hostname: githubApiHost,
           path,
           headers: {
-            "user-agent": "Awesome-Octocat-App",
+            "user-agent": "bmj-practice",
+            authorization: `token ${githubAuthToken}`,
           },
         },
         (res) => {
