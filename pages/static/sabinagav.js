@@ -1,12 +1,13 @@
 import { Overview } from "../../components/Overview";
-import { getUser } from "../../services/octokit";
+import { getUserByUsername, getOrgsByUsername } from "../../services/github";
 
-const GithubOverview = ({ user }) => <Overview user={user} />;
+const GithubOverview = ({ user, orgs }) => <Overview user={user} orgs={orgs} />;
 
 export async function getStaticProps() {
-  const user = await getUser("sabinagav");
+  const user = await getUserByUsername("sabinagav");
+  const orgs = await getOrgsByUsername("sabinagav");
 
-  return { props: { user } };
+  return { props: { user, orgs } };
 }
 
 export default GithubOverview;

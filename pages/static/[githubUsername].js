@@ -1,17 +1,18 @@
 import { Overview } from "../../components/Overview";
-import { getUser } from "../../services/octokit";
+import { getUserByUsername, getOrgsByUsername } from "../../services/github";
 import { frequentlyVisited } from "../../constants";
 
-const GithubOverview = ({ user }) => {
-  if (user) {
-    return <Overview user={user} />;
+const GithubOverview = ({ user, orgs }) => {
+  if (user && orgs) {
+    return <Overview user={user} orgs={orgs} />;
   } else return <h1>Loading...</h1>;
 };
 
 export async function getStaticProps({ params: { githubUsername } }) {
-  const user = await getUser(githubUsername);
+  const user = await getUserByUsername(githubUsername);
+  const orgs = await getOrgsByUsername(githubUsername);
 
-  return { props: { user } };
+  return { props: { user, orgs } };
 }
 
 export async function getStaticPaths() {
