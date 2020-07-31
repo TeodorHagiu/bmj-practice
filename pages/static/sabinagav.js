@@ -1,11 +1,13 @@
 import { Overview } from "../../components/Overview";
 import { getUserByUsername, getOrgsByUsername } from "../../services/github";
 
-const GithubOverview = ({ user, orgs }) => <Overview user={user} orgs={orgs} />;
+const GithubOverview = (props) => <Overview {...props} />;
 
 export async function getStaticProps() {
-  const user = await getUserByUsername("sabinagav");
-  const orgs = await getOrgsByUsername("sabinagav");
+  const [user, orgs] = await Promise.all([
+    getUserByUsername("sabinagav"),
+    getOrgsByUsername("sabinagav"),
+  ]);
 
   return { props: { user, orgs } };
 }

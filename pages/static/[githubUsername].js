@@ -9,8 +9,10 @@ const GithubOverview = ({ user, orgs }) => {
 };
 
 export async function getStaticProps({ params: { githubUsername } }) {
-  const user = await getUserByUsername(githubUsername);
-  const orgs = await getOrgsByUsername(githubUsername);
+  const [user, orgs] = await Promise.all([
+    getUserByUsername(githubUsername),
+    getOrgsByUsername(githubUsername),
+  ]);
 
   return { props: { user, orgs } };
 }
